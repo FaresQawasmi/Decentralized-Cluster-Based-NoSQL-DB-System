@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  bootstrap:
+    build: ./bootstrapnode
+    container_name: bootstrap
+    ports:
+      - "8080:8080"
+    networks:
+      - node-network
+    depends_on:
+      - node0
+      - node1
+      - node2
+  
+  node0:
+    build: ./database
+    container_name: node0
+    environment:
+      - NODE_NAME=node0
+      - NODE_PORT=8081
+    ports:
+      - "8081:8081"
+    networks:
+      - node-network
+  
+  node1:
+    build: ./database
+    container_name: node1
+    environment:
+      - NODE_NAME=node1
+      - NODE_PORT=8082
+    ports:
+      - "8082:8081"
+    networks:
+      - node-network
+    
+  node2:
+    build: ./database
+    container_name: node2
+    environment:
+      - NODE_NAME=node2
+      - NODE_PORT=8083
+    ports:
+      - "8083:8081"
+    networks:
+      - node-network
+
+networks:
+  node-network:
+    driver: bridge
